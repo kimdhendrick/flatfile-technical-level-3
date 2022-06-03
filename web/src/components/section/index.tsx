@@ -22,16 +22,27 @@ import CardI from '../../types/card'
 
 const Section = ({
   section: { id, title, cards },
-  onCardSubmit
+  onCardSubmit,
+  onMoveCard
 }: {
   section: SectionI
-  onCardSubmit: Function
+  onCardSubmit: Function,
+  onMoveCard: Function
 }) => {
   const [isTempCardActive, setIsTempCardActive] = useState(false)
   const [cardText, setCardText] = useState('')
+  const enableDropping = (event: React.DragEvent<HTMLDivElement>) => { 
+    event.preventDefault();
+  }
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    const cardId = event.dataTransfer.getData('text');
+    console.log(`Dropped card id: ${cardId} to section id: ${id}`);
 
+      onMoveCard(cardId, id);
+  }
+  
   return (
-    <Wrapper>
+    <Wrapper onDragOver={enableDropping} onDrop={handleDrop}>
       <WrappedSection>
         <SectionHeader>
           <SectionTitle>{title}</SectionTitle>

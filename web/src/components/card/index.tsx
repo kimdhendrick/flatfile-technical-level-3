@@ -13,9 +13,13 @@ const CardContainer = styled.div`
 `
 
 const CardTitle = styled.div``
+const handleDragStart = (event: React.DragEvent<HTMLDivElement>) => {
+  event.dataTransfer.setData('text', event.currentTarget.id)
+  console.log("Started dragging... cardId: ", event.currentTarget.id)
+}
 
-const Card = ({ card: { title } }: any) => (
-  <CardContainer className='card'>
+const Card = ({ card: { id, title } }: any) => (
+  <CardContainer id={id} className='card' draggable="true" onDragStart={handleDragStart}>
     <CardTitle>{title}</CardTitle>
   </CardContainer>
 )
